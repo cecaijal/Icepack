@@ -1,0 +1,5 @@
+# List of changes made to model in this branch compared to icepack 1.5.3, not including env or machines etc
+
+* icepack_snow.F90 approximately row 575
+  * Fixing V* (Vseas) bug where alpha and beta ar flipped compared to original source  Lecomte et al. (2015), Eq. (9)
+

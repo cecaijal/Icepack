@@ -571,8 +571,19 @@
       msusp = c0
       do n = 1, ncat
          ! critical seasonal wind speed needed to compact snow to density rhos
-         Vseas = (rhos_cmpn(1,n) - 44.6_dbl_kind)/174.0_dbl_kind ! use top layer
+                
+         !--------------------------------------------------------------
+         ! 2026/11 cecaijal fixing the V* bug in Icepack 
+         ! where alpha and beta is flipped compared to original source 
+         ! Lecomte et al. (2015), Eq. (9)
+         !--------------------------------------------------------------
+         !Vseas = (rhos_cmpn(1,n) - 44.6_dbl_kind)/174.0_dbl_kind ! use top layer
+         Vseas = (rhos_cmpn(1,n) - 174.0_dbl_kind)/44.6_dbl_kind ! use top layer
+        
+         
          Vseas = max(Vseas, c0)
+         
+         
          ! maximum mass per unit area of snow in suspension (kg/m^2)
          if (ITDsd > puny) &
             msusp = msusp + atmp(n)*gamma*dt*max(wind-Vseas,c0) &

@@ -251,7 +251,7 @@ cat >> ${jobfile} << EOFB
 # nothing to do
 EOFB
 
-else if (${ICE_MACHINE} =~ conda*) then
+else if (${ICE_MACHINE} =~ conda* || ${ICE_MACHINE} == ubuntu) then
 cat >> ${jobfile} << EOFB
 # nothing to do
 EOFB

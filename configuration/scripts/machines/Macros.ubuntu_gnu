@@ -1,0 +1,44 @@
+#==============================================================================
+# Makefile macros for generic test machine, intel compiler
+#==============================================================================
+
+CPP        := cpp
+CPPDEFS    := -DFORTRANUNDERSCORE ${ICE_CPPDEFS} 
+CFLAGS     := -c -O2
+
+FIXEDFLAGS := -ffixed-line-length-132
+FREEFLAGS  := -ffree-form
+FFLAGS     := -fbacktrace -fconvert=big-endian -ffree-line-length-none
+FFLAGS += $(shell nf-config --fflags) # added to get netcdf in macros
+
+FFLAGS_NOOPT:= -O0
+
+ifeq ($(ICE_BLDDEBUG), true)
+  FFLAGS     += -O0 -g -fbacktrace #-fallow-argument-mismatch -fallow-invalid-boz
+else
+  FFLAGS     += -O2
+endif
+
+SCC := gcc
+SFC := gfortran
+CC := $(SCC)
+FC := $(SFC)
+LD := $(FC)
+
+
+
+INCLDIR := $(nf-config --includedir)
+
+
+LIB_PNETCDF := $(PNETCDF_PATH)/lib
+LIB_MPI := $(IMPILIBDIR)
+
+MODDIR += $(nf-config --fflags)
+SLIBS := $(nf-config --flibs) -lnetcdf -lnetcdff
+
+ifeq ($(ICE_THREADED), true) 
+   LDFLAGS += -fopenmp 
+   CFLAGS += -fopenmp 
+   FFLAGS += -fopenmp 
+endif
+
